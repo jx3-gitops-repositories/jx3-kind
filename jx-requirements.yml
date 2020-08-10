@@ -7,7 +7,7 @@ buildPacks:
     gitRef: master
     gitURL: https://github.com/jenkins-x/jxr-packs-kubernetes.git
 cluster:
-  clusterName: ""
+  clusterName: "kind"
   devEnvApprovers:
   - todo
   environmentGitOwner: "todo"
@@ -17,7 +17,7 @@ cluster:
   namespace: jx
   project:  ""
   provider: kind
-  registry: gcr.io
+  registry: ""
   zone: ""
 environments:
 - key: dev
