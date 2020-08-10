@@ -2,7 +2,8 @@
 set -o errexit
 
 # desired cluster name; default is "kind"
-CLUSTER_NAME="${CLUSTER_NAME:-kind}"
+KIND_CLUSTER_NAME="${CLUSTER_NAME:-kind}"
+echo "creating kind cluster name ${KIND_CLUSTER_NAME}"
 
 # create registry container unless it already exists
 reg_name='kind-registry'
@@ -16,7 +17,7 @@ fi
 reg_ip="$(docker inspect -f '{{.NetworkSettings.IPAddress}}' "${reg_name}")"
 
 # create a cluster with the local registry enabled in containerd
-cat <<EOF | kind create cluster --name "${CLUSTER_NAME}" --config=-
+cat <<EOF | kind create cluster --name "${KIND_CLUSTER_NAME}" --config=-
 kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 containerdConfigPatches:
