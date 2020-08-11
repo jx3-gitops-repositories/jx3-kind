@@ -65,7 +65,8 @@ pre-build:
 .PHONY: post-build
 post-build:
 	jx gitops scheduler -d config-root/namespaces/jx -o src/base/namespaces/jx/lighthouse-config
-	jx gitops ingress
+	# TODO do we need this?
+	#jx gitops ingress
 	jx gitops label --dir $(OUTPUT_DIR) gitops.jenkins-x.io/pipeline=environment
 	jx gitops annotate --dir  $(OUTPUT_DIR)/namespaces --kind Deployment wave.pusher.com/update-on-config-change=true
 
@@ -106,6 +107,11 @@ verify: verify-ingress
 .PHONY: verify-ignore
 verify-ignore: verify-ingress-ignore
 
+.PHONY: secrets-populate
+secrets-populate:
+	# lets populate any missing secrets we have a generator defined for in the `.jx/gitops/secret-schema.yaml` file
+	# they can be modified/regenerated at any time via `jx secret edit`
+	-jx secret populate
 
 .PHONY: git-setup
 git-setup:
@@ -117,7 +123,7 @@ regen-check:
 	jx gitops condition --last-commit-msg-prefix '!Merge pull request' -- make git-setup resolve-metadata all double-apply verify-ingress-ignore commit push
 
 	# lets run this twice to ensure that ingress is setup after applying nginx if not using a custom domain yet
-	jx gitops condition --last-commit-msg-prefix '!Merge pull request' -- make verify-ingress-ignore all verify-ignore commit push
+	jx gitops condition --last-commit-msg-prefix '!Merge pull request' -- make verify-ingress-ignore all verify-ignore commit push secrets-populate
 
 .PHONY: apply
 apply: regen-check
