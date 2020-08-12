@@ -20,8 +20,8 @@ init:
 
 .PHONY: fetch
 fetch: init
-	# TODO do we need this?
-	#jx gitops repository --source-dir $(OUTPUT_DIR)/namespaces
+	# lets configure the cluster gitops repository URL on the requirements if its missing
+	jx gitops repository --source-dir $(OUTPUT_DIR)/namespaces
 
 	# lets resolve chart versions and values from the version stream
 	jx gitops helmfile resolve
