@@ -125,7 +125,7 @@ git-setup:
 
 .PHONY: regen-check
 regen-check:
-	jx gitops condition --last-commit-msg-prefix '!Merge pull request' -- make git-setup resolve-metadata all double-apply verify-ingress-ignore
+	jx gitops condition --last-commit-msg-prefix '!Merge pull request' -- make git-setup resolve-metadata all double-apply verify-ingress-ignore commit push
 
 	# lets run this twice to ensure that ingress is setup after applying nginx if not using a custom domain yet
 	jx gitops condition --last-commit-msg-prefix '!Merge pull request' -- make verify-ingress-ignore all verify-ignore secrets-populate commit push
@@ -144,6 +144,10 @@ double-apply:
 
 .PHONY: resolve-metadata
 resolve-metadata:
+	# lets merge in any output from Terraform in the ConfigMap default/terraform-jx-requirements if it exists
+	jx gitops requirements merge
+
+	# lets resolve any requirements
 	jx gitops requirements resolve -n
 
 .PHONY: commit
