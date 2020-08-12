@@ -14,8 +14,7 @@ releases:
 - chart: stable/nginx-ingress
 - chart: jenkins-x/tekton
 - chart: jenkins-x/lighthouse
-- chart: jenkins-x/nexus
-- chart: jenkins-x/chartmuseum
+- chart: jenkins-x/bucketrepo
 - chart: stable/docker-registry
 - chart: banzaicloud-stable/vault-operator
 - chart: jx-labs/vault-instance
