@@ -2,6 +2,8 @@ FETCH_DIR := build/base
 TMP_TEMPLATE_DIR := build/tmp
 OUTPUT_DIR := config-root
 
+VAULT_ADDR ?= https://vault.vault-infra:8200
+
 .PHONY: clean
 clean:
 	rm -rf build $(OUTPUT_DIR)
@@ -111,7 +113,7 @@ verify-ignore: verify-ingress-ignore
 secrets-populate:
 	# lets populate any missing secrets we have a generator defined for in the `.jx/gitops/secret-schema.yaml` file
 	# they can be modified/regenerated at any time via `jx secret edit`
-	-jx secret populate
+	-VAULT_ADDR=$(VAULT_ADDR) jx secret populate
 
 .PHONY: git-setup
 git-setup:
