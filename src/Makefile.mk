@@ -118,6 +118,11 @@ secrets-populate:
 	# they can be modified/regenerated at any time via `jx secret edit`
 	-VAULT_ADDR=$(VAULT_ADDR) jx secret populate
 
+.PHONY: secrets-wait
+secrets-wait:
+	# lets wait for the ExternalSecrets service to populate the mandatory Secret resources
+	VAULT_ADDR=$(VAULT_ADDR) jx secret wait
+
 .PHONY: git-setup
 git-setup:
 	jx gitops git setup
@@ -128,7 +133,7 @@ regen-check:
 	jx gitops condition --last-commit-msg-prefix '!Merge pull request' -- make git-setup resolve-metadata all double-apply verify-ingress-ignore commit push
 
 	# lets run this twice to ensure that ingress is setup after applying nginx if not using a custom domain yet
-	jx gitops condition --last-commit-msg-prefix '!Merge pull request' -- make verify-ingress-ignore all verify-ignore secrets-populate commit push
+	jx gitops condition --last-commit-msg-prefix '!Merge pull request' -- make verify-ingress-ignore all verify-ignore secrets-populate commit push secrets-wait
 
 .PHONY: apply
 apply: regen-check
