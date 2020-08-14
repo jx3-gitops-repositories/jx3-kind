@@ -45,7 +45,7 @@ spec:
           value: jenkins-x-labs-bot
         - name: XDG_CONFIG_HOME
           value: /workspace/xdg_config
-        image: gcr.io/jenkinsxio-labs-private/jx-cli:0.0.326
+        image: gcr.io/jenkinsxio-labs-private/jx-cli:0.0.328
         name: git-clone
         volumeMounts:
         - mountPath: /workspace
@@ -56,7 +56,7 @@ spec:
         - apply
         command:
         - make
-        image: gcr.io/jenkinsxio-labs-private/jx-cli:0.0.326
+        image: gcr.io/jenkinsxio-labs-private/jx-cli:0.0.328
         imagePullPolicy: Always
         name: job
         volumeMounts:
