@@ -29,7 +29,7 @@ fetch: init
 	# lets make sure we are using the latest jx-cli in the git operator Job
 	jx gitops image -s .jx/git-operator
 
-	# not sure why we need this...
+	# not sure why we need this but it avoids issues...
 	helm repo add jx http://chartmuseum.jenkins-x.io
 
 	# generate the yaml from the charts in helmfile.yaml
@@ -38,8 +38,9 @@ fetch: init
 	# split the files into one file per resource
 	jx gitops split --dir $(TMP_TEMPLATE_DIR)
 
-	# convert k8s Secrets => ExternalSecret resources
-	jx gitops secretsmapping --dir $(TMP_TEMPLATE_DIR)
+	# convert k8s Secrets => ExternalSecret resources using secret mapping + schemas
+	# see: https://github.com/jenkins-x/jx-secret#mappings
+	jx secret convert --dir $(TMP_TEMPLATE_DIR)
 
 	# move the templated files to correct cluster or namespace folder
 	# setting the namespace on namespaced resources
