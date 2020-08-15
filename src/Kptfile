@@ -5,7 +5,7 @@ metadata:
 upstream:
     type: git
     git:
-        commit: 88d99174b0e87b424bb9cdfe27f73fff9d4579fe
+        commit: b8ec5e0f5d4fe95c51b119e6e36e9d3a6d40b662
         repo: https://github.com/jenkins-x/jx3-gitops-template
         directory: /src
         ref: master
