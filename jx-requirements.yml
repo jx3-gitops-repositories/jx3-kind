@@ -7,6 +7,7 @@ buildPacks:
     gitRef: master
     gitURL: https://github.com/jenkins-x/jxr-packs-kubernetes.git
 cluster:
+  chartRepository: http://bucketrepo/bucketrepo/charts/
   clusterName: "kind"
   devEnvApprovers:
   - todo
@@ -40,7 +41,7 @@ ingress:
     enabled: false
     production: false
 kaniko: true
-repository: nexus
+repository: bucketrepo
 secretStorage: vault
 storage:
   backup:
