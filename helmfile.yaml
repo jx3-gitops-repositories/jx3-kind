@@ -12,12 +12,10 @@ releases:
   values:
   - charts/jenkins-x/jxboot-helmfile-resources/values.yaml
 - chart: external-secrets/kubernetes-external-secrets
+  namespace: jx
 - chart: jx-labs/jenkins-x-crds
 - chart: stable/nginx-ingress
 - chart: jenkins-x/tekton
 - chart: jenkins-x/lighthouse
 - chart: jenkins-x/bucketrepo
 - chart: stable/docker-registry
-- chart: banzaicloud-stable/vault-operator
-- chart: jx-labs/vault-instance
-- chart: jx-labs/pusher-wave

@@ -42,7 +42,7 @@ ingress:
     production: false
 kaniko: true
 repository: bucketrepo
-secretStorage: vault
+secretStorage: local
 storage:
   backup:
     enabled: false
