@@ -11,11 +11,17 @@ releases:
 - chart: jenkins-x/jxboot-helmfile-resources
   values:
   - charts/jenkins-x/jxboot-helmfile-resources/values.yaml
-- chart: external-secrets/kubernetes-external-secrets
-  namespace: jx
-- chart: jx-labs/jenkins-x-crds
+- chart: jx3/jenkins-x-crds
 - chart: stable/nginx-ingress
 - chart: jenkins-x/tekton
 - chart: jenkins-x/lighthouse
 - chart: jenkins-x/bucketrepo
 - chart: stable/docker-registry
+repositories:
+- name: jenkins-x
+  url: https://storage.googleapis.com/chartmuseum.jenkins-x.io
+- name: stable
+  url: https://kubernetes-charts.storage.googleapis.com
+- name: jx3
+  url: https://storage.googleapis.com/jenkinsxio/charts
+
