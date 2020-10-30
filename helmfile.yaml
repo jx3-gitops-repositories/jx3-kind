@@ -73,7 +73,7 @@ releases:
   values:
   - versionStream/charts/stable/docker-registry/values.yaml.gotmpl
 - chart: jx3/jx-build-controller
-  version: 0.0.13
+  version: 0.0.14
   name: jx-build-controller
   namespace: jx
   values:
