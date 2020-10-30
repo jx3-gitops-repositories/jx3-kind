@@ -72,5 +72,8 @@ releases:
   namespace: jx
   values:
   - versionStream/charts/stable/docker-registry/values.yaml.gotmpl
+- chart: jx3/jx-build-controller
+  name: jx-build-controller
+  namespace: jx
 templates: {}
 missingFileHandler: ""
