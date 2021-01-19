@@ -6,9 +6,6 @@ KIND_CLUSTER_NAME="${CLUSTER_NAME:-kind}"
 echo "creating kind cluster name ${KIND_CLUSTER_NAME}"
 
 
-export KUBECONFIG=/home/kubeconfig/cfg
-mkdir -p /home/kubeconfig
-
 # create registry container unless it already exists
 reg_name='kind-registry'
 reg_port='5000'
@@ -46,18 +43,7 @@ nodes:
     protocol: TCP
 EOF
 
-#echo "now connecting to the cluster"
-
-#kubectl cluster-info --context "kind-${KIND_CLUSTER_NAME}"
-
 kubectl cluster-info
 
-#echo "creating jx-git-operator namespace"
-#kubectl create ns jx-git-operator
-
-echo "KUBECONFIG = $KUBECONFIG"
-ls -al /home/kubeconfig
-cat $KUBECONFIG
-
-echo "now listing the namespaces"
+echo "now listing the namespaces to check kind"
 kubectl get ns
