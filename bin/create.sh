@@ -46,6 +46,10 @@ echo "now connecting to the cluster"
 
 kubectl cluster-info --context "kind-${KIND_CLUSTER_NAME}"
 
-echo "now listing the namespaces"
 
+echo "creating jx-git-operator namespace"
+
+kubectl create ns jx-git-operator
+
+echo "now listing the namespaces"
 kubectl get ns
