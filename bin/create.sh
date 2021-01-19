@@ -44,7 +44,7 @@ EOF
 
 echo "now connecting to the cluster"
 
-kubectl cluster-info --context "${KIND_CLUSTER_NAME}"
+kubectl cluster-info --context "kind-${KIND_CLUSTER_NAME}"
 
 echo "now listing the namespaces"
 
