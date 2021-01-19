@@ -6,8 +6,8 @@ KIND_CLUSTER_NAME="${CLUSTER_NAME:-kind}"
 echo "creating kind cluster name ${KIND_CLUSTER_NAME}"
 
 
-export KUBECONFIG=/home/kubeconfig
-mkdir -p $KUBECONFIG
+export KUBECONFIG=/home/kubeconfig/cfg
+mkdir -p /home/kubeconfig
 
 # create registry container unless it already exists
 reg_name='kind-registry'
@@ -55,7 +55,7 @@ EOF
 #kubectl create ns jx-git-operator
 
 echo "KUBECONFIG = $KUBECONFIG"
-ls -al $KUBECONFIG
+ls -al /home/kubeconfig
 
 echo "now listing the namespaces"
 kubectl get ns
