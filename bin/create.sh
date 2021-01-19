@@ -50,12 +50,14 @@ EOF
 
 #kubectl cluster-info --context "kind-${KIND_CLUSTER_NAME}"
 
+kubectl cluster-info
 
 #echo "creating jx-git-operator namespace"
 #kubectl create ns jx-git-operator
 
 echo "KUBECONFIG = $KUBECONFIG"
 ls -al /home/kubeconfig
+cat $KUBECONFIG
 
 echo "now listing the namespaces"
 kubectl get ns
