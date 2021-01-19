@@ -41,4 +41,11 @@ nodes:
     hostPort: 443
     protocol: TCP
 EOF
-# CLI-DOC-GEN-END
+
+echo "now connecting to the cluster"
+
+kubectl cluster-info --context "${KIND_CLUSTER_NAME}"
+
+echo "now listing the namespaces"
+
+kubectl get ns
