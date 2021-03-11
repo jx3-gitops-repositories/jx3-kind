@@ -73,7 +73,7 @@ export GIT_HOST=${GIT_HOST:-"gitea.${IP}.nip.io"}
 export GIT_URL="${GIT_SCHEME}://${GIT_HOST}"
 export GIT_KIND="gitea"
 
-export INTERNAL_GIT_URL="http://gitea-http.gitea:3000"
+export INTERNAL_GIT_URL="http://gitea-http.gitea"
 
 
 
@@ -132,6 +132,7 @@ ingress:
     - ${GIT_HOST}
 service:
   http:
+    port: 80
     clusterIP: ""
 gitea:
   admin:
@@ -334,22 +335,24 @@ createBootRepo() {
   cd ..
 }
 
+installGitOperator() {
+  step "installing the git operator at url: ${INTERNAL_GIT_URL}/${ORG}/cluster-$NAME-dev with user: ${BOT_USER} token: ${BOT_PASS}"
+
+  jx admin operator --url "${INTERNAL_GIT_URL}/${ORG}/cluster-$NAME-dev" --username ${BOT_USER} --token ${BOT_PASS}
+}
+
 runBDD() {
     step "running the BDD tests $TEST_NAME on git server $INTERNAL_GIT_URL"
 
     export GITEA_SVC_IP="$(kubectl get svc gitea-http -n gitea -o jsonpath='{.spec.clusterIP}')"
 
-    helm upgrade --install bdd jx3/jx-bdd  --namespace jx --create-namespace --set bdd.approverSecret="bdd-git-approver",bdd.kind="$GIT_KIND",bdd.owner="$ORG",bdd.gitServerHost="gitea-http.gitea",bdd.gitServerURL="$INTERNAL_GIT_URL",command.test="make $TEST_NAME",jxgoTag="$JX_VERSION",hostAlias.ip="${GITEA_SVC_IP}",hostAlias.hostname="${GIT_HOST}"
+    echo "using gitea IP ${GITEA_SVC_IP} and host ${GIT_HOST} with user ${DEVELOPER_USER} token ${DEVELOPER_PASS}"
+
+    helm upgrade --install bdd jx3/jx-bdd  --namespace jx --create-namespace --set bdd.approverSecret="bdd-git-approver",bdd.kind="$GIT_KIND",bdd.owner="$ORG",bdd.gitServerHost="gitea-http.gitea",bdd.gitServerURL="$INTERNAL_GIT_URL",command.test="make $TEST_NAME",jxgoTag="$JX_VERSION",bdd.user="${BOT_USER}",bdd.token="${TOKEN}",hostAlias.ip="${GITEA_SVC_IP}",hostAlias.hostname="${GIT_HOST}"
 
     echo "about to wait for the BDD test to run"
     sleep 20
     jx verify job --name jx-bdd -n jx --log-fail
-}
-
-installGitOperator() {
-  step "installing the git operator at url: ${INTERNAL_GIT_URL}/${ORG}/cluster-$NAME-dev with user: ${BOT_USER} token: ${BOT_PASS}"
-
-  jx admin operator --url "${INTERNAL_GIT_URL}/${ORG}/cluster-$NAME-dev" --username ${BOT_USER} --token ${BOT_PASS}
 }
 
 
