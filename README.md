@@ -1,6 +1,11 @@
 # jx3-kind
 
 Jenkins X 3.x GitOps repository using Docker/Kind to create a kubernetes cluster and local secrets
+      
+
+## Prerequisites 
+
+Make sure you have installed and are running [Docker Desktop](https://www.docker.com/products/docker-desktop)
 
 ## Running
 
