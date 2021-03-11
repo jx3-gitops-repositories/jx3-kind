@@ -7,7 +7,7 @@ set -euo pipefail
 
 COMMAND=${1:-'help'}
 
-DIR="bin"
+DIR="downloads"
 mkdir -p $DIR
 #DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
@@ -320,6 +320,12 @@ createBootRepo() {
   jx scm repo create ${GIT_URL}/${ORG}/cluster-$NAME-dev --template ${DEV_CLUSTER_REPOSITORY}  --confirm
   sleep 2
   jx scm repo clone ${GIT_SCHEME}://${DEVELOPER_USER}:${DEVELOPER_PASS}@${GIT_HOST}/${ORG}/cluster-$NAME-dev
+
+  cd cluster-$NAME-dev
+  jx gitops requirements edit --domain "${IP}.nip.io"
+  git commit -a -m "fix: upgrade domain"
+  git push
+  cd ..
 }
 
 installGitOperator() {
