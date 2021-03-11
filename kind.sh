@@ -29,6 +29,7 @@ export DEVELOPER_USER="developer"
 export DEVELOPER_PASS="developer"
 
 ORG="${ORG:-coders}"
+TEST_NAME="${TEST_NAME:-test-create-spring}"
 
 DEV_CLUSTER_REPOSITORY="${DEV_CLUSTER_REPOSITORY:-https://github.com/jx3-gitops-repositories/jx3-kind}"
 
@@ -129,6 +130,9 @@ ingress:
     kubernetes.io/ingress.class: nginx
   hosts:
     - ${GIT_HOST}
+service:
+  http:
+    clusterIP: ""
 gitea:
   admin:
     password: ${GITEA_ADMIN_PASSWORD}
@@ -330,6 +334,18 @@ createBootRepo() {
   cd ..
 }
 
+runBDD() {
+    step "running the BDD tests $TEST_NAME on git server $INTERNAL_GIT_URL"
+
+    export GITEA_SVC_IP="$(kubectl get svc gitea-http -n gitea -o jsonpath='{.spec.clusterIP}')"
+
+    helm upgrade --install bdd jx3/jx-bdd  --namespace jx --create-namespace --set bdd.approverSecret="bdd-git-approver",bdd.kind="$GIT_KIND",bdd.owner="$ORG",bdd.gitServerHost="gitea-http.gitea",bdd.gitServerURL="$INTERNAL_GIT_URL",command.test="make $TEST_NAME",jxgoTag="$JX_VERSION",hostAlias.ip="${GITEA_SVC_IP}",hostAlias.hostname="${GIT_HOST}"
+
+    echo "about to wait for the BDD test to run"
+    sleep 20
+    jx verify job --name jx-bdd -n jx --log-fail
+}
+
 installGitOperator() {
   step "installing the git operator at url: ${INTERNAL_GIT_URL}/${ORG}/cluster-$NAME-dev with user: ${BOT_USER} token: ${BOT_PASS}"
 
@@ -360,6 +376,9 @@ configureHelm() {
 
   substep "gitea-charts"
   helm --kube-context "kind-${KIND_CLUSTER_NAME}" repo add gitea-charts https://dl.gitea.io/charts/
+
+  substep "jx3"
+  helm --kube-context "kind-${KIND_CLUSTER_NAME}" repo add jx3 https://storage.googleapis.com/jenkinsxio/charts
 
   substep "helm repo update"
   helm --kube-context "kind-${KIND_CLUSTER_NAME}"  repo update
@@ -593,6 +612,8 @@ create() {
   configureGiteaOrgAndUsers
   createBootRepo
   installGitOperator
+
+  runBDD
 }
 
 function_exists() {
