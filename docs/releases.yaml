@@ -64,17 +64,6 @@
     repositoryName: jenkins-x
     repositoryUrl: https://storage.googleapis.com/chartmuseum.jenkins-x.io
     version: 0.1.54
-  - apiVersion: v1
-    appVersion: 2.7.1
-    deprecated: true
-    description: DEPRECATED A Helm chart for Docker Registry
-    home: https://hub.docker.com/_/registry/
-    icon: https://hub.docker.com/public/images/logos/mini-logo.svg
-    name: docker-registry
-    repositoryName: stable
-    repositoryUrl: https://charts.helm.sh/stable
-    sources:
-    - https://github.com/docker/distribution-library-image
   - apiVersion: v2
     appVersion: 3.0.0
     description: Jenkins X next gen cloud CI / CD platform for Kubernetes
@@ -97,30 +86,6 @@
     repositoryName: jx3
     repositoryUrl: https://storage.googleapis.com/jenkinsxio/charts
     version: 0.0.6
-- namespace: nginx
-  path: helmfiles/nginx/helmfile.yaml
-  releases:
-  - annotations:
-      artifacthub.io/changes: |
-        - Remove helm2 support and update docs
-    apiVersion: v2
-    appVersion: 0.41.2
-    description: Ingress controller for Kubernetes using NGINX as a reverse proxy and load balancer
-    home: https://github.com/kubernetes/ingress-nginx
-    icon: https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Nginx_logo.svg/500px-Nginx_logo.svg.png
-    keywords:
-    - ingress
-    - nginx
-    kubeVersion: '>=1.16.0-0'
-    maintainers:
-    - name: ChiefAlexander
-    name: ingress-nginx
-    repositoryName: ingress-nginx
-    repositoryUrl: https://kubernetes.github.io/ingress-nginx
-    sources:
-    - https://github.com/kubernetes/ingress-nginx
-    type: application
-    version: 3.12.0
 - namespace: tekton-pipelines
   path: helmfiles/tekton-pipelines/helmfile.yaml
   releases:

@@ -25,10 +25,11 @@ jxRequirements:
     devEnvApprovers:
     - todo
     environmentGitOwner: todo
-    gitKind: github
-    gitName: github
-    gitServer: https://github.com
+    gitKind: gitea
+    gitName: gitea
+    gitServer: http://gitea-http.gitea:3000
     provider: kind
+    registry: localhost:5000
   environments:
   - key: dev
   - key: staging

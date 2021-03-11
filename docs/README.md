@@ -53,12 +53,6 @@
 	      <td></td>
 	    </tr>
     <tr>
-	      <td><a href='https://hub.docker.com/_/registry/' title='DEPRECATED A Helm chart for Docker Registry'> <img src='https://hub.docker.com/public/images/logos/mini-logo.svg' width='24px' height='24px'> docker-registry </a></td>
-	      <td></td>
-	      <td></td>
-	      <td><a href='https://hub.docker.com/_/registry/'>source</a></td>
-	    </tr>
-    <tr>
 	      <td><a href='https://jenkins-x.io/' title='Jenkins X next gen cloud CI / CD platform for Kubernetes'> <img src='https://raw.githubusercontent.com/jenkins-x/jenkins-x-website/master/images/logo/jenkinsx-icon-color.svg' width='24px' height='24px'> jx-build-controller </a></td>
 	      <td>0.0.33</td>
 	      <td></td>
@@ -69,15 +63,6 @@
 	      <td>0.0.6</td>
 	      <td></td>
 	      <td></td>
-	    </tr>
-    <tr>
-		      <td colspan='4'><h3>nginx</h3></td>
-		    </tr>
-	    <tr>
-	      <td><a href='https://github.com/kubernetes/ingress-nginx' title='Ingress controller for Kubernetes using NGINX as a reverse proxy and load balancer'> <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Nginx_logo.svg/500px-Nginx_logo.svg.png' width='24px' height='24px'> ingress-nginx </a></td>
-	      <td>3.12.0</td>
-	      <td></td>
-	      <td><a href='https://github.com/kubernetes/ingress-nginx'>source</a></td>
 	    </tr>
     <tr>
 		      <td colspan='4'><h3>tekton-pipelines</h3></td>
