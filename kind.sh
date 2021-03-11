@@ -72,6 +72,9 @@ export GIT_HOST=${GIT_HOST:-"gitea.${IP}.nip.io"}
 export GIT_URL="${GIT_SCHEME}://${GIT_HOST}"
 export GIT_KIND="gitea"
 
+export INTERNAL_GIT_URL="http://gitea-http.gitea:3000"
+
+
 
 # write message to console and log
 info() {
@@ -320,8 +323,6 @@ createBootRepo() {
 }
 
 installGitOperator() {
-  export INTERNAL_GIT_URL="http://gitea-http.gitea:3000"
-
   step "installing the git operator at url: ${INTERNAL_GIT_URL}/${ORG}/cluster-$NAME-dev with user: ${BOT_USER} token: ${BOT_PASS}"
 
   jx admin operator --url "${INTERNAL_GIT_URL}/${ORG}/cluster-$NAME-dev" --username ${BOT_USER} --token ${BOT_PASS}
