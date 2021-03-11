@@ -50,11 +50,6 @@ releases:
   values:
   - ../../versionStream/charts/jenkins-x/bucketrepo/values.yaml.gotmpl
   - jx-values.yaml
-- chart: stable/docker-registry
-  name: docker-registry
-  values:
-  - ../../versionStream/charts/stable/docker-registry/values.yaml.gotmpl
-  - jx-values.yaml
 - chart: jx3/jx-build-controller
   version: 0.0.33
   name: jx-build-controller
