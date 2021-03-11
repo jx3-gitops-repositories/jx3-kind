@@ -7,7 +7,7 @@ set -euo pipefail
 
 COMMAND=${1:-'help'}
 
-DIR="downloads"
+DIR="$(pwd)/downloads"
 mkdir -p $DIR
 #DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
@@ -308,6 +308,8 @@ help() {
 
 createBootRepo() {
   step "creating the dev cluster git repo: ${GIT_URL}/${ORG}/cluster-$NAME-dev from template: ${DEV_CLUSTER_REPOSITORY}"
+
+  rm -rf "cluster-$NAME-dev"
 
   export GIT_USERNAME="${BOT_USER}"
   export GIT_TOKEN="${TOKEN}"
