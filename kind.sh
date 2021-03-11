@@ -73,7 +73,7 @@ export GIT_HOST=${GIT_HOST:-"gitea.${IP}.nip.io"}
 export GIT_URL="${GIT_SCHEME}://${GIT_HOST}"
 export GIT_KIND="gitea"
 
-export INTERNAL_GIT_URL="http://gitea-http.gitea"
+export INTERNAL_GIT_URL="http://gitea-http.gitea:3000"
 
 
 
@@ -132,7 +132,6 @@ ingress:
     - ${GIT_HOST}
 service:
   http:
-    port: 80
     clusterIP: ""
 gitea:
   admin:
@@ -348,7 +347,7 @@ runBDD() {
 
     echo "using gitea IP ${GITEA_SVC_IP} and host ${GIT_HOST} with user ${DEVELOPER_USER} token ${DEVELOPER_PASS}"
 
-    helm upgrade --install bdd jx3/jx-bdd  --namespace jx --create-namespace --set bdd.approverSecret="bdd-git-approver",bdd.kind="$GIT_KIND",bdd.owner="$ORG",bdd.gitServerHost="gitea-http.gitea",bdd.gitServerURL="$INTERNAL_GIT_URL",command.test="make $TEST_NAME",jxgoTag="$JX_VERSION",bdd.user="${BOT_USER}",bdd.token="${TOKEN}",hostAlias.ip="${GITEA_SVC_IP}",hostAlias.hostname="${GIT_HOST}"
+    helm upgrade --install bdd jx3/jx-bdd  --namespace jx --create-namespace --set bdd.approverSecret="bdd-git-approver",bdd.kind="$GIT_KIND",bdd.owner="$ORG",bdd.gitServerHost="gitea-http.gitea",bdd.gitServerURL="$INTERNAL_GIT_URL",command.test="make $TEST_NAME",jxgoTag="$JX_VERSION",bdd.user="${DEVELOPER_USER}",bdd.token="${DEVELOPER_PASS}",hostAlias.ip="${GITEA_SVC_IP}",hostAlias.hostname="${GIT_HOST}"
 
     echo "about to wait for the BDD test to run"
     sleep 20
