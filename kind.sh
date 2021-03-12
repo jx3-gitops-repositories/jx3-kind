@@ -574,10 +574,6 @@ nodes:
   - containerPort: 443
     hostPort: 443
     protocol: TCP
-
-
-  # lets switch to the cluster
-  kubectl config use-context "kind-${KIND_CLUSTER_NAME}"
 EOF
 
 
@@ -595,6 +591,9 @@ data:
     help: "https://kind.sigs.k8s.io/docs/user/local-registry/"
 EOF
 
+
+  # lets switch to the cluster
+  kubectl config use-context "kind-${KIND_CLUSTER_NAME}"
 }
 
 
