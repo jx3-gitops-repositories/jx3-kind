@@ -70,7 +70,9 @@ fi
 echo "using IP: $IP"
 
 export GIT_SCHEME="http"
-export GIT_HOST=${GIT_HOST:-"gitea.${IP}.nip.io"}
+#export GIT_HOST=${GIT_HOST:-"gitea.${IP}.nip.io"}
+#export GIT_URL="${GIT_SCHEME}://${GIT_HOST}"
+export GIT_HOST=${GIT_HOST:-"127.0.0.1:3000"}
 export GIT_URL="${GIT_SCHEME}://${GIT_HOST}"
 export GIT_KIND="gitea"
 
@@ -366,27 +368,27 @@ configureHelm() {
   step "Configuring helm chart repositories"
 
   substep "ingress-nginx"
-  helm --kube-context "kind-${KIND_CLUSTER_NAME}" repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+  helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 
   substep "gitea-charts"
-  helm --kube-context "kind-${KIND_CLUSTER_NAME}" repo add gitea-charts https://dl.gitea.io/charts/
+  helm repo add gitea-charts https://dl.gitea.io/charts/
 
   substep "jx3"
-  helm --kube-context "kind-${KIND_CLUSTER_NAME}" repo add jx3 https://storage.googleapis.com/jenkinsxio/charts
+  helm repo add jx3 https://storage.googleapis.com/jenkinsxio/charts
 
   substep "helm repo update"
-  helm --kube-context "kind-${KIND_CLUSTER_NAME}"  repo update
+  helm  repo update
 }
 
 installNginxIngress() {
 
   step "Installing nginx ingress"
 
-  kubectl --context "kind-${KIND_CLUSTER_NAME}" create namespace nginx
+  kubectl create namespace nginx
 
   kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/kind/deploy.yaml
 
-  #echo "${FILE_NGINX_VALUES}" | helm --kube-context "kind-${KIND_CLUSTER_NAME}"  install nginx --namespace nginx --values - ingress-nginx/ingress-nginx
+  #echo "${FILE_NGINX_VALUES}" | helm  install nginx --namespace nginx --values - ingress-nginx/ingress-nginx
 
   sleep 10
 
@@ -407,11 +409,11 @@ installNginxIngress() {
 installGitea() {
   step "Installing Gitea"
 
-  kubectl --context "kind-${KIND_CLUSTER_NAME}" create namespace gitea
+  kubectl create namespace gitea
 
-  helm --kube-context "kind-${KIND_CLUSTER_NAME}" repo add gitea-charts https://dl.gitea.io/charts/
+  helm repo add gitea-charts https://dl.gitea.io/charts/
 
-  echo "${FILE_GITEA_VALUES_YAML}" | helm --kube-context "kind-${KIND_CLUSTER_NAME}" install --namespace gitea -f - gitea gitea-charts/gitea
+  echo "${FILE_GITEA_VALUES_YAML}" | helm install --namespace gitea -f - gitea gitea-charts/gitea
 
   substep "Waiting for Gitea to start"
 
@@ -420,6 +422,10 @@ installGitea() {
     --for=condition=ready pod \
     --selector=app.kubernetes.io/name=gitea \
     --timeout=100m
+
+
+  kubectl --namespace gitea port-forward svc/gitea-http 3000:3000 &
+
 
   # Verify that gitea is serving
   for i in {1..20}; do
@@ -514,11 +520,11 @@ getUrlBodyContains() {
 #   #
 #   step "Resetting Gitea"
 #   substep "Clar gitea data folder which includes the sqlite database and repositories"
-#   kubectl --context "kind-${KIND_CLUSTER_NAME}" -n gitea exec gitea-0 -- rm -rf "/data/*"
+#   kubectl -n gitea exec gitea-0 -- rm -rf "/data/*"
 
 
 #   substep "Restart gitea pod"
-#   kubectl --context "kind-${KIND_CLUSTER_NAME}" -n gitea delete pod gitea-0
+#   kubectl -n gitea delete pod gitea-0
 #   sleep 5
 #   expectPodsReadyByLabel gitea app.kubernetes.io/name=gitea
 
@@ -568,6 +574,10 @@ nodes:
   - containerPort: 443
     hostPort: 443
     protocol: TCP
+
+
+  # lets switch to the cluster
+  kubectl config use-context "kind-${KIND_CLUSTER_NAME}"
 EOF
 
 
