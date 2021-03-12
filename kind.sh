@@ -355,6 +355,9 @@ runBDD() {
 
     echo "about to wait for the BDD test to run"
     sleep 20
+
+    # lets avoid the jx commands thinking we are outside of kubernetes due to $GITHUB-ACTIONS maybe being set..
+    export JX_KUBERNETES="true"
     jx verify job --name jx-bdd -n jx
 }
 
