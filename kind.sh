@@ -384,6 +384,14 @@ installNginxIngress() {
 
   step "Installing nginx ingress"
 
+
+  substep "Waiting for kind to start"
+
+  kubectl wait --namespace kube-system \
+    --for=condition=ready pod \
+    --selector=tier=control-plane \
+    --timeout=100m
+
   #kubectl create namespace nginx
 
   kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/kind/deploy.yaml
@@ -392,7 +400,7 @@ installNginxIngress() {
 
   substep "Waiting for nginx to start"
 
-  sleep 10
+  sleep 60
 
   kubectl get pod --all-namespaces
 
