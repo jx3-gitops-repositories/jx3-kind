@@ -429,18 +429,18 @@ installGitea() {
 
   echo "${FILE_GITEA_VALUES_YAML}" | helm install --namespace gitea -f - gitea gitea-charts/gitea
 
-  substep "Waiting for Gitea to start"
+  sleep 20
 
+  echo "port forwarding gitea..."
+
+  kubectl --namespace gitea port-forward svc/gitea-http 3000:3000 || true &
+
+  substep "Waiting for Gitea to start"
 
   kubectl wait --namespace gitea \
     --for=condition=ready pod \
     --selector=app.kubernetes.io/name=gitea \
     --timeout=100m
-
-
-  echo "port forwarding gitea..."
-
-  kubectl --namespace gitea port-forward svc/gitea-http 3000:3000 &
 
   echo "gitea is running at ${GIT_URL}"
 
@@ -454,7 +454,7 @@ installGitea() {
     echo "output of curl ${http_output}"
 
     echo curl -v -LI -s "${GIT_URL}/api/v1/admin/users" "${CURL_GIT_ADMIN_AUTH[@]}"
-    http_code=`curl -LI -o /dev/null -w '%{http_code}' -H "${CURL_AUTH_HEADER}" -s "${GIT_URL}/api/v1/admin/users" `
+    http_code=`curl -LI -o /dev/null -w '%{http_code}' -H "${CURL_AUTH_HEADER}" -s "${GIT_URL}/api/v1/admin/users" || true`
     echo "got response code ${http_code}"
 
     if [[ "${http_code}" = "200" ]]; then
