@@ -166,12 +166,15 @@ FILE_USER_JSON=`cat << 'EOF'
 EOF
 `
 
+CURL_AUTH_HEADER=""
 declare -a CURL_AUTH=()
 curlBasicAuth() {
   username=$1
   password=$2
   basic=`echo -n "${username}:${password}" | base64`
   CURL_AUTH=("-H" "Authorization: Basic $basic")
+
+  CURL_AUTH_HEADER="Authorization: Basic $basic"
 }
 curlTokenAuth() {
   token=$1
@@ -441,14 +444,17 @@ installGitea() {
 
   echo "gitea is running at ${GIT_URL}"
 
-  echo "running curl -LI -o /dev/null  -s ${GIT_URL}/api/v1/admin/users ${CURL_GIT_ADMIN_AUTH[@]}"
+  echo "running curl -LI -o /dev/null  -s ${GIT_URL}/api/v1/admin/users -H '${CURL_AUTH_HEADER}'"
 
   # Verify that gitea is serving
   for i in {1..20}; do
     echo "curling..."
-    curl -LI -s "${GIT_URL}/api/v1/admin/users" "${CURL_GIT_ADMIN_AUTH[@]}"
 
-    http_code=`curl -LI -o /dev/null -w '%{http_code}' -s "${GIT_URL}/api/v1/admin/users" "${CURL_GIT_ADMIN_AUTH[@]}"`
+    http_output=`curl -v -LI -H "${CURL_AUTH_HEADER}" -s "${GIT_URL}/api/v1/admin/users" || true`
+    echo "output of curl ${http_output}"
+
+    echo curl -v -LI -s "${GIT_URL}/api/v1/admin/users" "${CURL_GIT_ADMIN_AUTH[@]}"
+    http_code=`curl -LI -o /dev/null -w '%{http_code}' -H "${CURL_AUTH_HEADER}" -s "${GIT_URL}/api/v1/admin/users" `
     echo "got response code ${http_code}"
 
     if [[ "${http_code}" = "200" ]]; then
@@ -642,6 +648,15 @@ create() {
   installGitOperator
 
   runBDD
+}
+
+
+recreate() {
+  destroy
+
+  sleep 2
+
+  create
 }
 
 function_exists() {
