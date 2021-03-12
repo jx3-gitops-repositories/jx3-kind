@@ -135,6 +135,11 @@ gitea:
   admin:
     password: ${GITEA_ADMIN_PASSWORD}
   config:
+    server:
+      DOMAIN: ${GIT_HOST}
+      PROTOCOL: ${GIT_SCHEME}
+      ROOT_URL: ${GIT_SCHEME}://${GIT_HOST}
+      SSH_DOMAIN: ${GIT_HOST}
     database:
       DB_TYPE: sqlite3
       ## Note that the intit script checks to see if the IP & port of the database service is accessible, so make sure you set those to something that resolves as successful (since sqlite uses files on disk setting the port & ip won't affect the running of gitea).
