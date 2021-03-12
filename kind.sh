@@ -444,7 +444,7 @@ metadata:
   labels:
     app: gitea
   name: gitea
-  namespace gitea
+  namespace: gitea
 spec:
   ports:
   - name: http
