@@ -21,6 +21,7 @@ GATEWAY=${GATEWAY:-"172.21.0.1"}
 PLATFORM=${PLATFORM:-"linux"} # use darwin for macOs
 
 NAME=${NAME:-"kind"}
+TOKEN=${TOKEN:-}
 
 BOT_USER="${BOT_USER:-jenkins-x-test-bot}"
 BOT_PASS="${BOT_PASS:-jenkins-x-test-bot}"
@@ -38,7 +39,7 @@ KIND_CLUSTER_NAME=${KIND_CLUSTER_NAME:-"${NAME}"}
 
 # versions
 KIND_VERSION=${KIND_VERSION:-"0.10.0"}
-JX_VERSION=${JX_VERSION:-"3.1.300"}
+JX_VERSION=${JX_VERSION:-"3.1.302"}
 KUBECTL_VERSION=${KUBECTL_VERSION:-"1.20.0"}
 YQ_VERSION=${YQ_VERSION:-"4.2.0"}
 
@@ -152,7 +153,6 @@ image:
 EOF
 `
 
-TOKEN=""
 
 FILE_USER_JSON=`cat << 'EOF'
 {
@@ -337,17 +337,15 @@ createBootRepo() {
 installGitOperator() {
   step "installing the git operator at url: ${INTERNAL_GIT_URL}/${ORG}/cluster-$NAME-dev with user: ${BOT_USER} token: ${BOT_PASS}"
 
-  jx admin operator --url "${INTERNAL_GIT_URL}/${ORG}/cluster-$NAME-dev" --username ${BOT_USER} --token ${BOT_PASS}
+  jx admin operator --url "${INTERNAL_GIT_URL}/${ORG}/cluster-$NAME-dev" --username ${BOT_USER} --token ${TOKEN}
 }
 
 runBDD() {
     step "running the BDD tests $TEST_NAME on git server $INTERNAL_GIT_URL"
 
-    export GITEA_SVC_IP="$(kubectl get svc gitea-http -n gitea -o jsonpath='{.spec.clusterIP}')"
+    echo "user: ${BOT_USER} token: ${TOKEN}"
 
-    echo "using gitea IP ${GITEA_SVC_IP} and host ${GIT_HOST} with user ${DEVELOPER_USER} token ${DEVELOPER_PASS}"
-
-    helm upgrade --install bdd jx3/jx-bdd  --namespace jx --create-namespace --set bdd.approverSecret="bdd-git-approver",bdd.kind="$GIT_KIND",bdd.owner="$ORG",bdd.gitServerHost="gitea-http.gitea",bdd.gitServerURL="$INTERNAL_GIT_URL",command.test="make $TEST_NAME",jxgoTag="$JX_VERSION",bdd.user="${DEVELOPER_USER}",bdd.token="${DEVELOPER_PASS}",hostAlias.ip="${GITEA_SVC_IP}",hostAlias.hostname="${GIT_HOST}"
+    helm upgrade --install bdd jx3/jx-bdd  --namespace jx --create-namespace --set bdd.approverSecret="bdd-git-approver",bdd.kind="$GIT_KIND",bdd.owner="$ORG",bdd.gitServerHost="gitea-http.gitea",bdd.gitServerURL="$INTERNAL_GIT_URL",command.test="make $TEST_NAME",jxgoTag="$JX_VERSION",bdd.user="${BOT_USER}",bdd.token="${TOKEN}",env.JX_GIT_PUSH_HOST="gitea-http.gitea:3000"
 
     echo "about to wait for the BDD test to run"
     sleep 20
