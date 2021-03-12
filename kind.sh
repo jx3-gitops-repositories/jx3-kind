@@ -384,7 +384,7 @@ installNginxIngress() {
 
   step "Installing nginx ingress"
 
-  kubectl create namespace nginx
+  #kubectl create namespace nginx
 
   kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/kind/deploy.yaml
 
@@ -394,7 +394,7 @@ installNginxIngress() {
 
   sleep 10
 
-  kubectl get ns
+  kubectl get pod --all-namespaces
 
   kubectl wait --namespace ingress-nginx \
     --for=condition=ready pod \
