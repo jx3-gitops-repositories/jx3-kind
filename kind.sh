@@ -434,17 +434,26 @@ installGitea() {
     --timeout=100m
 
 
+  echo "port forwarding gitea..."
+
   kubectl --namespace gitea port-forward svc/gitea-http 3000:3000 &
 
+  echo "gitea is running at ${GIT_URL}"
+
+  echo "running curl -LI -o /dev/null  -s ${GIT_URL}/api/v1/admin/users ${CURL_GIT_ADMIN_AUTH[@]}"
 
   # Verify that gitea is serving
   for i in {1..20}; do
     http_code=`curl -LI -o /dev/null -w '%{http_code}' -s "${GIT_URL}/api/v1/admin/users" "${CURL_GIT_ADMIN_AUTH[@]}"`
+    echo "got response code ${http_code}"
+
     if [[ "${http_code}" = "200" ]]; then
       break
     fi
     sleep 1
   done
+
+  echo "stopped polling"
 
   if [[ "${http_code}" != "200" ]]; then
     info "Gitea didn't startup"
