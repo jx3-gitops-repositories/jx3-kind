@@ -72,7 +72,8 @@ echo "using IP: $IP"
 export GIT_SCHEME="http"
 #export GIT_HOST=${GIT_HOST:-"gitea.${IP}.nip.io"}
 #export GIT_URL="${GIT_SCHEME}://${GIT_HOST}"
-export GIT_HOST=${GIT_HOST:-"127.0.0.1:3000"}
+#export GIT_HOST=${GIT_HOST:-"127.0.0.1:3000"}
+export GIT_HOST=${GIT_HOST:-"localhost:3000"}
 export GIT_URL="${GIT_SCHEME}://${GIT_HOST}"
 export GIT_KIND="gitea"
 
@@ -444,6 +445,9 @@ installGitea() {
 
   # Verify that gitea is serving
   for i in {1..20}; do
+    echo "curling..."
+    curl -LI -s "${GIT_URL}/api/v1/admin/users" "${CURL_GIT_ADMIN_AUTH[@]}"
+
     http_code=`curl -LI -o /dev/null -w '%{http_code}' -s "${GIT_URL}/api/v1/admin/users" "${CURL_GIT_ADMIN_AUTH[@]}"`
     echo "got response code ${http_code}"
 
