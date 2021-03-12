@@ -125,12 +125,6 @@ err() {
 
 
 FILE_GITEA_VALUES_YAML=`cat <<EOF
-ingress:
-  enabled: true
-  annotations:
-    kubernetes.io/ingress.class: nginx
-  hosts:
-    - ${GIT_HOST}
 service:
   http:
     clusterIP: ""
