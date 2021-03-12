@@ -390,9 +390,11 @@ installNginxIngress() {
 
   #echo "${FILE_NGINX_VALUES}" | helm  install nginx --namespace nginx --values - ingress-nginx/ingress-nginx
 
+  substep "Waiting for nginx to start"
+
   sleep 10
 
-  substep "Waiting for nginx to start"
+  kubectl get ns
 
   kubectl wait --namespace ingress-nginx \
     --for=condition=ready pod \
@@ -594,6 +596,8 @@ EOF
 
   # lets switch to the cluster
   kubectl config use-context "kind-${KIND_CLUSTER_NAME}"
+
+  kubectl cluster-info
 }
 
 
