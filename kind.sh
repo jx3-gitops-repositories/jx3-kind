@@ -77,8 +77,8 @@ export GIT_HOST=${GIT_HOST:-"localhost:3000"}
 export GIT_URL="${GIT_SCHEME}://${GIT_HOST}"
 export GIT_KIND="gitea"
 
-export INTERNAL_GIT_URL="http://gitea-http.gitea:3000"
-
+export INTERNAL_GIT_HOST="gitea-http.gitea:3000"
+export INTERNAL_GIT_URL="http://${INTERNAL_GIT_HOST}"
 
 
 # write message to console and log
@@ -136,10 +136,10 @@ gitea:
     password: ${GITEA_ADMIN_PASSWORD}
   config:
     server:
-      DOMAIN: ${GIT_HOST}
+      DOMAIN: ${INTERNAL_GIT_HOST}
       PROTOCOL: ${GIT_SCHEME}
-      ROOT_URL: ${GIT_SCHEME}://${GIT_HOST}
-      SSH_DOMAIN: ${GIT_HOST}
+      ROOT_URL: ${GIT_SCHEME}://${INTERNAL_GIT_HOST}
+      SSH_DOMAIN: ${INTERNAL_GIT_HOST}
     database:
       DB_TYPE: sqlite3
       ## Note that the intit script checks to see if the IP & port of the database service is accessible, so make sure you set those to something that resolves as successful (since sqlite uses files on disk setting the port & ip won't affect the running of gitea).
@@ -328,7 +328,7 @@ createBootRepo() {
 
   # lets make it public for now since its on a laptop
   # --private
-  jx scm repo create ${GIT_URL}/${ORG}/cluster-$NAME-dev --template ${DEV_CLUSTER_REPOSITORY}  --confirm
+  jx scm repo create ${GIT_URL}/${ORG}/cluster-$NAME-dev --template ${DEV_CLUSTER_REPOSITORY}  --confirm --push-host ${GIT_HOST}
   sleep 2
 
   git clone ${GIT_SCHEME}://${DEVELOPER_USER}:${DEVELOPER_PASS}@${GIT_HOST}/${ORG}/cluster-$NAME-dev
