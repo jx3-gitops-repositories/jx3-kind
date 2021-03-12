@@ -77,7 +77,7 @@ export GIT_HOST=${GIT_HOST:-"localhost:3000"}
 export GIT_URL="${GIT_SCHEME}://${GIT_HOST}"
 export GIT_KIND="gitea"
 
-export INTERNAL_GIT_HOST="gitea-http.gitea:3000"
+export INTERNAL_GIT_HOST="gitea.gitea"
 export INTERNAL_GIT_URL="http://${INTERNAL_GIT_HOST}"
 
 
@@ -351,7 +351,7 @@ runBDD() {
 
     echo "user: ${BOT_USER} token: ${TOKEN}"
 
-    helm upgrade --install bdd jx3/jx-bdd  --namespace jx --create-namespace --set bdd.approverSecret="bdd-git-approver",bdd.kind="$GIT_KIND",bdd.owner="$ORG",bdd.gitServerHost="gitea-http.gitea",bdd.gitServerURL="$INTERNAL_GIT_URL",command.test="make $TEST_NAME",jxgoTag="$JX_VERSION",bdd.user="${BOT_USER}",bdd.token="${TOKEN}",env.JX_GIT_PUSH_HOST="gitea-http.gitea:3000"
+    helm upgrade --install bdd jx3/jx-bdd  --namespace jx --create-namespace --set bdd.approverSecret="bdd-git-approver",bdd.kind="$GIT_KIND",bdd.owner="$ORG",bdd.gitServerHost="gitea-http.gitea",bdd.gitServerURL="$INTERNAL_GIT_URL",command.test="make $TEST_NAME",jxgoTag="$JX_VERSION",bdd.user="${BOT_USER}",bdd.token="${TOKEN}"
 
     echo "about to wait for the BDD test to run"
     sleep 20
@@ -435,12 +435,37 @@ installGitea() {
 
   echo "${FILE_GITEA_VALUES_YAML}" | helm install --namespace gitea -f - gitea gitea-charts/gitea
 
+  echo "adding a port 80 service for easier integration"
+
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: gitea
+  name: gitea
+  namespace gitea
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 3000
+  selector:
+    app.kubernetes.io/instance: gitea
+    app.kubernetes.io/name: gitea
+  type: ClusterIP
+EOF
+
   substep "Waiting for Gitea to start"
 
   kubectl wait --namespace gitea \
     --for=condition=ready pod \
     --selector=app.kubernetes.io/name=gitea \
     --timeout=100m
+
+
+
 
   echo "gitea is running at ${GIT_URL}"
 
