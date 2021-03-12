@@ -325,7 +325,8 @@ createBootRepo() {
   # --private
   jx scm repo create ${GIT_URL}/${ORG}/cluster-$NAME-dev --template ${DEV_CLUSTER_REPOSITORY}  --confirm
   sleep 2
-  jx scm repo clone ${GIT_SCHEME}://${DEVELOPER_USER}:${DEVELOPER_PASS}@${GIT_HOST}/${ORG}/cluster-$NAME-dev
+
+  git clone ${GIT_SCHEME}://${DEVELOPER_USER}:${DEVELOPER_PASS}@${GIT_HOST}/${ORG}/cluster-$NAME-dev
 
   cd cluster-$NAME-dev
   jx gitops requirements edit --domain "${IP}.nip.io"
@@ -429,12 +430,6 @@ installGitea() {
 
   echo "${FILE_GITEA_VALUES_YAML}" | helm install --namespace gitea -f - gitea gitea-charts/gitea
 
-  sleep 20
-
-  echo "port forwarding gitea..."
-
-  kubectl --namespace gitea port-forward svc/gitea-http 3000:3000 || true &
-
   substep "Waiting for Gitea to start"
 
   kubectl wait --namespace gitea \
@@ -443,6 +438,12 @@ installGitea() {
     --timeout=100m
 
   echo "gitea is running at ${GIT_URL}"
+
+  sleep 20
+
+  echo "port forwarding gitea..."
+
+  kubectl --namespace gitea port-forward svc/gitea-http 3000:3000 || true &
 
   echo "running curl -LI -o /dev/null  -s ${GIT_URL}/api/v1/admin/users -H '${CURL_AUTH_HEADER}'"
 
