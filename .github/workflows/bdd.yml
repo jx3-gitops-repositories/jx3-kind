@@ -12,5 +12,5 @@ jobs:
     - uses: actions/checkout@v2
     - name: Kind
       run: |
-
-        sudo -E kind.sh create
+        #sudo -E kind.sh create
+        kind.sh create
