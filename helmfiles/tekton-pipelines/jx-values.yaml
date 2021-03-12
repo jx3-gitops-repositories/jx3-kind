@@ -27,7 +27,7 @@ jxRequirements:
     environmentGitOwner: todo
     gitKind: gitea
     gitName: gitea
-    gitServer: http://gitea-http.gitea:3000
+    gitServer: http://gitea.gitea
     provider: kind
     registry: localhost:5000
   environments:

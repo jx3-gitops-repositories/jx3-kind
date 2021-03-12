@@ -355,7 +355,7 @@ runBDD() {
 
     echo "about to wait for the BDD test to run"
     sleep 20
-    jx verify job --name jx-bdd -n jx --log-fail
+    jx verify job --name jx-bdd -n jx
 }
 
 
