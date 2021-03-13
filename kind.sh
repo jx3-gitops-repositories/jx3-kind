@@ -39,7 +39,7 @@ KIND_CLUSTER_NAME=${KIND_CLUSTER_NAME:-"${NAME}"}
 
 # versions
 KIND_VERSION=${KIND_VERSION:-"0.10.0"}
-JX_VERSION=${JX_VERSION:-"3.1.302"}
+JX_VERSION=${JX_VERSION:-"3.1.306"}
 KUBECTL_VERSION=${KUBECTL_VERSION:-"1.20.0"}
 YQ_VERSION=${YQ_VERSION:-"4.2.0"}
 
@@ -639,6 +639,11 @@ nodes:
     protocol: TCP
 EOF
 
+  # lets switch to the cluster
+  kubectl config use-context "kind-${KIND_CLUSTER_NAME}"
+
+  kubectl cluster-info
+
 
 # Document the local registry
 # https://github.com/kubernetes/enhancements/tree/master/keps/sig-cluster-lifecycle/generic/1755-communicating-a-local-registry
@@ -655,10 +660,6 @@ data:
 EOF
 
 
-  # lets switch to the cluster
-  kubectl config use-context "kind-${KIND_CLUSTER_NAME}"
-
-  kubectl cluster-info
 }
 
 
