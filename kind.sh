@@ -30,7 +30,8 @@ export DEVELOPER_USER="developer"
 export DEVELOPER_PASS="developer"
 
 ORG="${ORG:-coders}"
-TEST_NAME="${TEST_NAME:-test-create-spring}"
+#TEST_NAME="${TEST_NAME:-test-create-spring}"
+TEST_NAME="${TEST_NAME:-test-quickstart-node-http}"
 
 DEV_CLUSTER_REPOSITORY="${DEV_CLUSTER_REPOSITORY:-https://github.com/jx3-gitops-repositories/jx3-kind}"
 
@@ -681,7 +682,8 @@ create() {
 
   createKindCluster
 
-  installNginxIngress
+  #installNginxIngress
+  
   installGitea
   configureGiteaOrgAndUsers
   createBootRepo

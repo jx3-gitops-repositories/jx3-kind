@@ -23,7 +23,7 @@ spec:
     domain: "svc.cluster.local"
     externalDNS: false
     ignoreLoadBalancer: true
-    namespaceSubDomain: -jx.
+    namespaceSubDomain: .jx.
     tls:
       email: ""
       enabled: false
