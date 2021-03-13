@@ -357,7 +357,7 @@ runBDD() {
 
     echo "about to wait for the BDD test to run"
 
-    kubectl get pod -n jx -w &
+    kubectl get event -n jx -w &
 
     sleep 20
 
