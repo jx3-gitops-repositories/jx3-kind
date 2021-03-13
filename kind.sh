@@ -354,6 +354,9 @@ runBDD() {
     helm upgrade --install bdd jx3/jx-bdd  --namespace jx --create-namespace --set bdd.approverSecret="bdd-git-approver",bdd.kind="$GIT_KIND",bdd.owner="$ORG",bdd.gitServerHost="gitea-http.gitea",bdd.gitServerURL="$INTERNAL_GIT_URL",command.test="make $TEST_NAME",jxgoTag="$JX_VERSION",bdd.user="${BOT_USER}",bdd.token="${TOKEN}"
 
     echo "about to wait for the BDD test to run"
+
+    kubectl get pod -n jx -w &
+
     sleep 20
 
     # lets avoid the jx commands thinking we are outside of kubernetes due to $GITHUB-ACTIONS maybe being set..
