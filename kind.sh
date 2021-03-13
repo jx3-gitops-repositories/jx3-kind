@@ -331,13 +331,15 @@ createBootRepo() {
   jx scm repo create ${GIT_URL}/${ORG}/cluster-$NAME-dev --template ${DEV_CLUSTER_REPOSITORY}  --confirm --push-host ${GIT_HOST}
   sleep 2
 
-  git clone ${GIT_SCHEME}://${DEVELOPER_USER}:${DEVELOPER_PASS}@${GIT_HOST}/${ORG}/cluster-$NAME-dev
-
-  cd cluster-$NAME-dev
-  jx gitops requirements edit --domain "${IP}.nip.io"
-  git commit -a -m "fix: upgrade domain"
-  git push
-  cd ..
+# lets not use the local IP as its not available inside kind pods
+#
+#  git clone ${GIT_SCHEME}://${DEVELOPER_USER}:${DEVELOPER_PASS}@${GIT_HOST}/${ORG}/cluster-$NAME-dev
+#
+#  cd cluster-$NAME-dev
+#  jx gitops requirements edit --domain "${IP}.nip.io"
+#  git commit -a -m "fix: upgrade domain"
+#  git push
+#  cd ..
 }
 
 installGitOperator() {
