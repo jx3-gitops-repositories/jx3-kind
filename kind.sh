@@ -466,6 +466,8 @@ spec:
   type: ClusterIP
 EOF
 
+  sleep 20
+
   substep "Waiting for Gitea to start"
 
   kubectl wait --namespace gitea \
