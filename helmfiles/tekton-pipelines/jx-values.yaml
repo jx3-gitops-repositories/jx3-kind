@@ -40,7 +40,7 @@ jxRequirements:
     externalDNS: false
     ignoreLoadBalancer: true
     kind: ingress
-    namespaceSubDomain: -tekton-pipelines.
+    namespaceSubDomain: .tekton-pipelines.
     tls:
       email: ""
       enabled: false
