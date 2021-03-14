@@ -358,9 +358,10 @@ runBDD() {
 
     echo "about to wait for the BDD test to run"
 
-    kubectl get event -n jx -w &
-
     sleep 20
+
+    kubectl describe nodes
+    kubectl get event -n jx -w &
 
     # lets avoid the jx commands thinking we are outside of kubernetes due to $GITHUB-ACTIONS maybe being set..
     export JX_KUBERNETES="true"
