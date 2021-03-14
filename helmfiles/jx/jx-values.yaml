@@ -40,7 +40,7 @@ jxRequirements:
     externalDNS: false
     ignoreLoadBalancer: true
     kind: ingress
-    namespaceSubDomain: -jx.
+    namespaceSubDomain: .jx.
     tls:
       email: ""
       enabled: false
