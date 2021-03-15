@@ -1,9 +1,9 @@
 name: BDD test
 on:
-  push:
-    branches:
-    - main
-    - master
+#  push:
+#    branches:
+#    - main
+#    - master
 
   # TODO disable kind BDD for now until it works reliably
   # pull_request:
