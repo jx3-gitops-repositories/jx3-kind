@@ -7,6 +7,7 @@ jx:
   - tekton-container-registry-auth
   pipelineVariables:
     PUSH_CONTAINER_REGISTRY: kind-registry:5000
+  releaseCRD: true
   secrets:
     adminUser:
       password: todo
