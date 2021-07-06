@@ -10,11 +10,11 @@ spec:
     devEnvApprovers:
     - todo
     environmentGitOwner: todo
-    gitKind: gitea
-    gitName: gitea
-    gitServer: http://gitea.gitea
-    provider: kind
-    registry: localhost:5000
+    gitKind: github
+    gitName: github
+    gitServer: https://github.com
+    provider: kubernetes
+    registry: ghcr.io
   environments:
   - key: dev
   - key: staging
