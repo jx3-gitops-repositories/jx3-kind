@@ -20,7 +20,7 @@ spec:
   - key: staging
   - key: production
   ingress:
-    domain: "svc.cluster.local"
+    domain: ""
     externalDNS: false
     ignoreLoadBalancer: true
     namespaceSubDomain: .jx.

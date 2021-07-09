@@ -11,3 +11,5 @@ jx:
   # into the .jx/variables.sh file which can be overriden on a pre repository basis
   # or during a pipeline by writing to the '.jx/variables.sh' file
   pipelineVariables: {}
+    # lets push to a different container registry host
+    #PUSH_CONTAINER_REGISTRY: kind-registry:5000

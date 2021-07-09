@@ -1,0 +1,3 @@
+address:
+  # Note replace this value with the IP address from the kind node
+  from: ""

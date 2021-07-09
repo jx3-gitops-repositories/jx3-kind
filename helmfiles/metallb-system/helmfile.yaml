@@ -1,0 +1,18 @@
+filepath: ""
+environments:
+  default:
+    values:
+    - jx-values.yaml
+namespace: metallb-system
+repositories:
+- name: jxgh
+  url: https://jenkins-x-charts.github.io/repo
+releases:
+- chart: jxgh/metallb
+  version: 0.0.1
+  name: metallb
+  values:
+  - jx-values.yaml
+  - metallb-values.yaml
+templates: {}
+renderedvalues: {}
