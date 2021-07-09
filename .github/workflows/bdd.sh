@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 
-
 export BDD_NAME="kind"
 export BRANCH_NAME="${BRANCH_NAME:-pr-${GITHUB_RUN_ID}-${GITHUB_RUN_NUMBER}}"
 export BUILD_NUMBER="${GITHUB_RUN_NUMBER}"

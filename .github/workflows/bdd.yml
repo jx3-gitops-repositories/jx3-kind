@@ -23,4 +23,6 @@ jobs:
         GITHUB_RUN_ID: ${{ secrets.GITHUB_RUN_ID }}
         GITHUB_RUN_NUMBER: ${{ secrets.GITHUB_RUN_NUMBER }}
       run: |
+        source ./bin/activate-hermit || true
+
         sudo -E .github/workflows/bdd.sh
