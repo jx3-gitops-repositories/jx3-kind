@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# lets setup the hermit binaries
+source ./bin/activate-hermit || true
 
 export BDD_NAME="kind"
 export BRANCH_NAME="${BRANCH_NAME:-pr-${GITHUB_RUN_ID}-${GITHUB_RUN_NUMBER}}"
