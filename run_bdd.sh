@@ -20,6 +20,11 @@ git clone https://github.com/jenkins-x/bdd-jx3
 
 cd bdd-jx3
 
+export GIT_ORGANISATION=$GIT_OWNER
+
+# lets enable kubectl access in jx
+export JX_KUBERNETES=true
+
 make test-quickstart-golang-http
 
 
