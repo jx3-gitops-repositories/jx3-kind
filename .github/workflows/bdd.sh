@@ -8,8 +8,8 @@ then
   echo "not setting up git as not in a GitHub Action"
 else
   echo "lets setup git"
-  git config user.name github-actions
-  git config user.email github-actions@github.com
+  git config user.name $GIT_USERNAME
+  git config user.email jenkins-x@googlegroups.com
 fi
 
 export BDD_NAME="kind"
@@ -18,7 +18,7 @@ export BUILD_NUMBER="${GITHUB_RUN_NUMBER}"
 
 export CLUSTER_NAME="${BRANCH_NAME,,}-$BUILD_NUMBER-$BDD_NAME"
 
-echo "using cluster name: $CLUSTER_NAME with owner $GIT_OWNER"
+echo "using cluster name: $CLUSTER_NAME with owner $GIT_OWNER with user $GIT_USERNAME"
 
 
 # lets check we have a git credentials file...
