@@ -25,6 +25,7 @@ export GIT_ORGANISATION=$GIT_OWNER
 # lets enable kubectl access in jx
 export JX_KUBERNETES=true
 
+jx ns jx
 make test-quickstart-golang-http
 
 
