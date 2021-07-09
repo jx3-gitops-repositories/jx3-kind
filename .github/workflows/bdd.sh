@@ -2,15 +2,8 @@
 
 set -euo pipefail
 
-
-if [ -z "$GITHUB_ACTIONS" ]
-then
-  echo "not setting up git as not in a GitHub Action"
-else
-  echo "lets setup git"
-  git config user.name $GIT_USERNAME
-  git config user.email jenkins-x@googlegroups.com
-fi
+git config --global user.name $GIT_USERNAME
+git config --global user.email jenkins-x@googlegroups.com
 
 export BDD_NAME="kind"
 export BRANCH_NAME="${BRANCH_NAME:-pr-${GITHUB_RUN_ID}-${GITHUB_RUN_NUMBER}}"
@@ -37,7 +30,7 @@ jx scm repo create https://github.com/${GIT_OWNER}/cluster-$CLUSTER_NAME --templ
 echo "sleeping for a little while"
 sleep 15
 
-echo "now cloning the repository"
+echo "now cloning the repository: https://@github.com/${GIT_OWNER}/cluster-$CLUSTER_NAME"
 
 jx scm repo clone https://$GIT_USERNAME:$GIT_TOKEN@github.com/${GIT_OWNER}/cluster-$CLUSTER_NAME
 
