@@ -15,15 +15,23 @@ GIT_OWNER="${GIT_OWNER:-$GIT_USERNAME}"
 
 echo "running the BDD tests $TEST_NAME with user: $GIT_USERNAME with owner:$GIT_OWNER jx version: $JX_VERSION"
 
-helm upgrade --install bdd jx3/jx-bdd  --namespace jx --create-namespace --set command.test="make $TEST_NAME",jxgoTag="$JX_VERSION",bdd.user="${GIT_USERNAME}",bdd.owner="$GIT_OWNER",bdd.token="${GIT_TOKEN}"
 
-echo "about to wait for the BDD test to run"
+git clone https://github.com/jenkins-x/bdd-jx3
 
-sleep 20
+cd bdd-jx3
 
-kubectl describe nodes
-kubectl get event -n jx -w &
+make test-quickstart-golang-http
+
+
+#helm upgrade --install bdd jx3/jx-bdd  --namespace jx --create-namespace --set command.test="make $TEST_NAME",jxgoTag="$JX_VERSION",bdd.user="${GIT_USERNAME}",bdd.owner="$GIT_OWNER",bdd.token="${GIT_TOKEN}"
+
+#echo "about to wait for the BDD test to run"
+
+#sleep 20
+
+#kubectl describe nodes
+#kubectl get event -n jx -w &
 
 # lets avoid the jx commands thinking we are outside of kubernetes due to $GITHUB-ACTIONS maybe being set..
-export JX_KUBERNETES="true"
-jx verify job --name jx-bdd -n jx
+#export JX_KUBERNETES="true"
+#jx verify job --name jx-bdd -n jx
