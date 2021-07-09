@@ -20,8 +20,8 @@ jobs:
     - name: Kind
       env:
         GIT_OWNER: jenkins-x-bdd
-        GIT_USERNAME: ${{ secrets.GIT_USERNAME }}
-        GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
+        GIT_USERNAME: ${{ secrets.BDD_USERNAME }}
+        GIT_TOKEN: ${{ secrets.BDD_TOKEN }}
         GITHUB_RUN_ID: ${{ secrets.GITHUB_RUN_ID }}
         GITHUB_RUN_NUMBER: ${{ secrets.GITHUB_RUN_NUMBER }}
       run: |
