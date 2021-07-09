@@ -20,9 +20,10 @@ spec:
   - key: staging
   - key: production
   ingress:
-    domain: ""
+    domain: 172.18.0.2.nip.io
     externalDNS: false
     ignoreLoadBalancer: true
+    kind: ingress
     namespaceSubDomain: .jx.
     tls:
       email: ""
@@ -30,4 +31,5 @@ spec:
       production: false
   repository: bucketrepo
   secretStorage: local
+  vault: {}
   webhook: lighthouse
