@@ -1,13 +1,21 @@
 #!/usr/bin/env bash
 
-# lets setup the hermit binaries
-source ./bin/activate-hermit || true
+if [ -z "$GITHUB_ACTIONS" ]
+then
+  echo "not setting up git as not in a GitHub Action"
+else
+  echo "lets setup git"
+  git config user.name github-actions
+  git config user.email github-actions@github.com
+fi
 
 export BDD_NAME="kind"
 export BRANCH_NAME="${BRANCH_NAME:-pr-${GITHUB_RUN_ID}-${GITHUB_RUN_NUMBER}}"
 export BUILD_NUMBER="${GITHUB_RUN_NUMBER}"
 
 export CLUSTER_NAME="${BRANCH_NAME,,}-$BUILD_NUMBER-$BDD_NAME"
+
+echo "using cluster name: $CLUSTER_NAME"
 
 jx scm repo create https://github.com/${GIT_OWNER}/cluster-$CLUSTER_NAME --template https://github.com/jx3-gitops-repositories/jx3-kind --private --confirm
 sleep 15
