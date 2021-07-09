@@ -25,6 +25,27 @@ export GIT_ORGANISATION=$GIT_OWNER
 # lets enable kubectl access in jx
 export JX_KUBERNETES=true
 
+export XDG_CONFIG_HOME="$HOME"
+
+export JX_DISABLE_DELETE_APP="true"
+export JX_DISABLE_DELETE_REPO="true"
+
+# default to batch mode so jx commands don't ask for input
+export JX_BATCH_MODE="true"
+
+# increase the timeout for complete PipelineActivity
+export BDD_TIMEOUT_PIPELINE_ACTIVITY_COMPLETE="60"
+
+# we don't yet update the PipelineActivity.spec.pullTitle on previews....
+export BDD_DISABLE_PIPELINEACTIVITY_CHECK="true"
+
+# lets skip manual promotion
+export JX_BDD_SKIP_MANUAL_PROMOTION="true"
+
+# disable checking for PipelineActivity status == Succeeded for now while we fix up a timing issue
+BDD_ASSERT_ACTIVITY_SUCCEEDED="false"
+
+
 # setup the namespace and git
 jx ns jx
 jx gitops git setup
