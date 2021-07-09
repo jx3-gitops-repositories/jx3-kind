@@ -39,7 +39,7 @@ sleep 15
 
 echo "now cloning the repository"
 
-jx scm repo clone https://github.com/${GIT_OWNER}/cluster-$CLUSTER_NAME
+jx scm repo clone https://$GIT_USERNAME:$GIT_TOKEN@github.com/${GIT_OWNER}/cluster-$CLUSTER_NAME
 
 pushd `pwd`/cluster-$CLUSTER_NAME
     echo "creating the kind cluster"
