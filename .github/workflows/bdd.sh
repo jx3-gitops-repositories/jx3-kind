@@ -33,10 +33,15 @@ git config credential.helper store
 jx scm version
 
 jx scm repo create https://github.com/${GIT_OWNER}/cluster-$CLUSTER_NAME --template https://github.com/jx3-gitops-repositories/jx3-kind --private --confirm --kind github
-sleep 15
-jx scm repo clone https://github.com/${GIT_OWNER}/cluster-$CLUSTER_NAME cluster-dev
 
-pushd `pwd`/cluster-dev
+echo "sleeping for a little while"
+sleep 15
+
+echo "now cloning the repository"
+
+jx scm repo clone https://github.com/${GIT_OWNER}/cluster-$CLUSTER_NAME
+
+pushd `pwd`/cluster-$CLUSTER_NAME
     echo "creating the kind cluster"
     ./kind.sh create
 
