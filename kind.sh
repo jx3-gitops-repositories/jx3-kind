@@ -11,16 +11,6 @@ IP=${IP:-""}
 
 echo "Creating kind cluster named ${KIND_CLUSTER_NAME}"
 
-# lets check we have a git credentials file...
-if test  -f "~/.git-credentials"; then
-  echo "~/.git-credentials exists"
-else
-  echo "creating file ~/.git-credentials"
-  echo "https://$GIT_USERNAME:$GIT_TOKEN@github.com" >  ~/.git-credentials
-fi
-git config credential.helper store
-
-
 # create a cluster with the local registry enabled in containerd
 cat <<EOF | kind create cluster --config=-
 kind: Cluster
