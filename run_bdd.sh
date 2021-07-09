@@ -50,6 +50,9 @@ BDD_ASSERT_ACTIVITY_SUCCEEDED="false"
 jx ns jx
 jx gitops git setup
 
+
+kubectl get event -n jx -w &
+
 make test-quickstart-golang-http
 
 
@@ -60,7 +63,6 @@ make test-quickstart-golang-http
 #sleep 20
 
 #kubectl describe nodes
-#kubectl get event -n jx -w &
 
 # lets avoid the jx commands thinking we are outside of kubernetes due to $GITHUB-ACTIONS maybe being set..
 #export JX_KUBERNETES="true"
