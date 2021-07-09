@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+set -euo pipefail
+
+
 if [ -z "$GITHUB_ACTIONS" ]
 then
   echo "not setting up git as not in a GitHub Action"
@@ -15,9 +18,11 @@ export BUILD_NUMBER="${GITHUB_RUN_NUMBER}"
 
 export CLUSTER_NAME="${BRANCH_NAME,,}-$BUILD_NUMBER-$BDD_NAME"
 
-echo "using cluster name: $CLUSTER_NAME"
+echo "using cluster name: $CLUSTER_NAME with owner $GIT_OWNER"
 
-jx scm repo create https://github.com/${GIT_OWNER}/cluster-$CLUSTER_NAME --template https://github.com/jx3-gitops-repositories/jx3-kind --private --confirm
+jx scm version
+
+jx scm repo create https://github.com/${GIT_OWNER}/cluster-$CLUSTER_NAME --template https://github.com/jx3-gitops-repositories/jx3-kind --private --confirm --kind github
 sleep 15
 jx scm repo clone https://github.com/${GIT_OWNER}/cluster-$CLUSTER_NAME cluster-dev
 

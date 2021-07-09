@@ -25,4 +25,4 @@ jobs:
         GITHUB_RUN_ID: ${{ secrets.GITHUB_RUN_ID }}
         GITHUB_RUN_NUMBER: ${{ secrets.GITHUB_RUN_NUMBER }}
       run: |
-        sudo -E .github/workflows/bdd.sh
+        .github/workflows/bdd.sh
