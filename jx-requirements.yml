@@ -5,7 +5,8 @@ spec:
     enabled: false
     schedule: ""
   cluster:
-    chartRepository: http://bucketrepo.jx.svc.cluster.local/bucketrepo/charts/
+    chartRepository: https://github.com/jenkins-x-bdd/repo.git
+    chartKind: pages
     clusterName: kind
     devEnvApprovers:
     - todo
