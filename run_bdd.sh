@@ -53,7 +53,7 @@ jx gitops git setup
 
 kubectl get event -n jx -w &
 
-make test-quickstart-golang-http
+make test-quickstart-node-http
 
 
 #helm upgrade --install bdd jx3/jx-bdd  --namespace jx --create-namespace --set command.test="make $TEST_NAME",jxgoTag="$JX_VERSION",bdd.user="${GIT_USERNAME}",bdd.owner="$GIT_OWNER",bdd.token="${GIT_TOKEN}"
