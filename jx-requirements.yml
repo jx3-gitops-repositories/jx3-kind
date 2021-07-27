@@ -19,7 +19,6 @@ spec:
   environments:
   - key: dev
   - key: staging
-  - key: production
   ingress:
     domain: ""
     externalDNS: false
