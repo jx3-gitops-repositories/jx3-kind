@@ -27,8 +27,6 @@ export JX_KUBERNETES=true
 
 export XDG_CONFIG_HOME="$HOME"
 
-export JX_DISABLE_DELETE_APP="true"
-export JX_DISABLE_DELETE_REPO="true"
 
 # default to batch mode so jx commands don't ask for input
 export JX_BATCH_MODE="true"
@@ -49,7 +47,10 @@ export BDD_ASSERT_ACTIVITY_SUCCEEDED="false"
 export JX_VIEW_PROMOTE_PR_LOG="true"
 
 # lets remove promoted apps after promotion
-export JX_DISABLE_DELETE_APP="true"
+export JX_DISABLE_DELETE_APP="false"
+
+# don't delete the source repo though
+export JX_DISABLE_DELETE_REPO="true"
 
 # setup the namespace and git
 jx ns jx
