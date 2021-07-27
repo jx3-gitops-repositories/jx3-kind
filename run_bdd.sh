@@ -48,6 +48,9 @@ export BDD_ASSERT_ACTIVITY_SUCCEEDED="false"
 # view the PR pipeline logs
 export JX_VIEW_PROMOTE_PR_LOG="true"
 
+# lets remove promoted apps after promotion
+export JX_DISABLE_DELETE_APP="true"
+
 # setup the namespace and git
 jx ns jx
 jx gitops git setup
