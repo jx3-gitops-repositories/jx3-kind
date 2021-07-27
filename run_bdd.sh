@@ -43,8 +43,10 @@ export BDD_DISABLE_PIPELINEACTIVITY_CHECK="true"
 export JX_BDD_SKIP_MANUAL_PROMOTION="true"
 
 # disable checking for PipelineActivity status == Succeeded for now while we fix up a timing issue
-BDD_ASSERT_ACTIVITY_SUCCEEDED="false"
+export BDD_ASSERT_ACTIVITY_SUCCEEDED="false"
 
+# view the PR pipeline logs
+export JX_VIEW_PROMOTE_PR_LOG="true"
 
 # setup the namespace and git
 jx ns jx
