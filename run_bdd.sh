@@ -59,6 +59,9 @@ jx gitops git setup
 
 kubectl get event -n jx -w &
 
+
+echo "JX_DISABLE_DELETE_APP = $JX_DISABLE_DELETE_APP"
+
 make test-quickstart-node-http
 
 
