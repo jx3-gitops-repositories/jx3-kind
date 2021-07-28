@@ -2,7 +2,7 @@ apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
   creationTimestamp: null
-  name: pullrequest
+  name: release
 spec:
   pipelineSpec:
     tasks:
@@ -11,7 +11,7 @@ spec:
       taskSpec:
         metadata: {}
         stepTemplate:
-          image: uses:jenkins-x/jx3-pipeline-catalog/tasks/environment/pullrequest.yaml@versionStream
+          image: uses:jenkins-x/jx3-pipeline-catalog/tasks/environment/release.yaml@versionStream
           name: ""
           resources:
             requests:
@@ -19,12 +19,13 @@ spec:
               memory: 128Mi
             limits:
               cpu: 400m
-              memory: 512Mi
+              memory: 256Mi
           workingDir: /workspace/source
         steps:
-        - image: uses:jenkins-x/jx3-pipeline-catalog/tasks/git-clone/git-clone-env-pr.yaml@versionStream
+        - image: uses:jenkins-x/jx3-pipeline-catalog/tasks/git-clone/git-clone.yaml@versionStream
+          name: ""
           resources: {}
-        - name: make-pr
+        - name: admin-log
           resources: {}
   podTemplate: {}
   serviceAccountName: tekton-bot
