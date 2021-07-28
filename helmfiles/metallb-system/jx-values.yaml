@@ -21,7 +21,8 @@ jxRequirements:
     enabled: false
     schedule: ""
   cluster:
-    chartRepository: http://bucketrepo.jx.svc.cluster.local/bucketrepo/charts/
+    chartKind: pages
+    chartRepository: https://github.com/jenkins-x-bdd/repo.git
     clusterName: kind
     devEnvApprovers:
     - todo
@@ -33,13 +34,9 @@ jxRequirements:
     registry: ghcr.io
   environments:
   - key: dev
-    owner: jenkins-x-bdd
-    repository: jx-kind-test
   - key: staging
-  - key: production
   ingress:
     domain: change.me
-    externalDNS: false
     ignoreLoadBalancer: true
     kind: ingress
     namespaceSubDomain: .metallb-system.
@@ -47,8 +44,6 @@ jxRequirements:
       email: ""
       enabled: false
       production: false
-  pipelineUser:
-    username: jstrachan
   repository: bucketrepo
   secretStorage: local
   vault: {}

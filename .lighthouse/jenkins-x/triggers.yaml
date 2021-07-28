@@ -37,3 +37,12 @@ spec:
             - needs-ok-to-test
             - needs-rebase
         review_approved_required: false
+
+
+  postsubmits:
+  - name: bootjob
+    context: "bootjob"
+    source: "release.yaml"
+    branches:
+    - ^main$
+    - ^master$
