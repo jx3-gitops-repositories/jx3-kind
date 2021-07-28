@@ -61,6 +61,7 @@ kubectl get event -n jx -w &
 
 
 echo "JX_DISABLE_DELETE_APP = $JX_DISABLE_DELETE_APP"
+jx version
 
 make test-quickstart-node-http
 
