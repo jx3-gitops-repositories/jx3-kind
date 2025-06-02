@@ -24,8 +24,6 @@ jxRequirements:
     chartKind: pages
     chartRepository: https://github.com/jenkins-x-bdd/repo.git
     clusterName: kind
-    devEnvApprovers:
-    - todo
     environmentGitOwner: todo
     gitKind: github
     gitName: github
