@@ -1,8 +1,8 @@
-filepath: ""
 environments:
   default:
     values:
     - jx-values.yaml
+---
 namespace: metallb-system
 repositories:
 - name: jxgh
@@ -14,5 +14,3 @@ releases:
   values:
   - jx-values.yaml
   - metallb-values.yaml
-templates: {}
-renderedvalues: {}
